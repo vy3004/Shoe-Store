@@ -11,7 +11,9 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart } from "react-icons/bs";
 import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
-import { useSelector } from "react-redux";
+
+import { useAuth } from "@/context/auth";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -19,9 +21,17 @@ const Header = () => {
   const [show, setShow] = useState("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const { user } = useSelector((state) => state.user);
+  const [auth, setAuth] = useAuth();
 
-  console.log("USER", user);
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    toast.success("User logout successfully");
+  };
 
   const controlNavbar = () => {
     if (window.scrollY > 50) {
@@ -35,7 +45,6 @@ const Header = () => {
     }
     setLastScrollY(window.scrollY);
   };
-
   useEffect(() => {
     window.addEventListener("scroll", controlNavbar);
     return () => {
@@ -45,15 +54,17 @@ const Header = () => {
 
   return (
     <header
-      className={`w-full bg-stone-200 z-20 sticky top-0 
+      className={`w-full bg-stone-200 border-b z-20 sticky top-0 
     transition-transform duration-300 ${show}`}
     >
-      {user ? (
+      {auth.user ? (
         <Wrapper
-          className="h-[25px] flex items-center justify-end 
+          className="h-[25px] flex items-center justify-between 
       text-[12px] md:text-[14px] text-black font-semibold"
         >
-          Hello! {user.name}
+          <Link href="/dashboard">DashBoard</Link>
+          <button onClick={handleLogout}>Logout</button>
+          Hello! {auth.user.name}
         </Wrapper>
       ) : (
         <Wrapper
@@ -62,14 +73,14 @@ const Header = () => {
         >
           <Link
             className="mr-1 cursor-pointer hover:font-extrabold"
-            href="/register"
+            href="/auth/register"
           >
             Sign Up
           </Link>
           |
           <Link
             className="w-[46px] md:w-[52px] ml-1 cursor-pointer hover:font-extrabold"
-            href="/login"
+            href="/auth/login"
           >
             Sign In
           </Link>

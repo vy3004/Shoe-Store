@@ -71,7 +71,7 @@ export const login = async (req, res) => {
     //check user
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(404).send({
+      return res.status(200).send({
         success: false,
         message: "Email is not registered",
       });
@@ -105,6 +105,32 @@ export const login = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Login error",
+      error,
+    });
+  }
+};
+
+export const getInfo = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: "Resource not found",
+        error,
+      });
+    } else {
+      return res.status(200).send({
+        success: true,
+        message: "Ok",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Get user info error",
       error,
     });
   }

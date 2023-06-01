@@ -1,5 +1,4 @@
-import axios from "../config/axios.js";
-import Link from "next/link";
+import publicClient from "@/configs/publicClient.js";
 import { useRouter } from "next/router.js";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -16,18 +15,18 @@ const register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ name, email, password, phone, address });
-    console.log(process.env.REACT_APP_BACKEND_URL);
     try {
-      const data = await axios.post("/api/auth/register", {
+      const data = await publicClient.post("/auth/register", {
         name,
         email,
         password,
         phone,
         address,
       });
+      console.log("RES", data);
       if (data && data.success) {
-        toast.success(data && data.message);
-        router.push("/login");
+        toast.success(data.message);
+        router.push("/auth/login");
       } else {
         toast.error(data.message);
       }
