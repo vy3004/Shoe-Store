@@ -3,9 +3,9 @@ import React from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 const CartItem = ({ data }) => {
-  const p = data.attributes;
+  const p = data;
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
   const updateCartItem = (e, key) => {
     let payload = {
@@ -13,19 +13,14 @@ const CartItem = ({ data }) => {
       val: key === "quantity" ? parseInt(e.target.value) : e.target.value,
       id: data.id,
     };
-    dispatch(updateCart(payload));
+    //dispatch(updateCart(payload));
   };
 
   return (
     <div className="flex py-5 gap-3 md:gap-5 border-b">
       {/* IMAGE START */}
       <div className="shrink-0 aspect-square w-[50px] md:w-[120px]">
-        <Image
-          src={p.thumbnail.data.attributes.url}
-          alt={p.name}
-          width={120}
-          height={120}
-        />
+        <Image src={p.img} alt={p.name} width={120} height={120} />
       </div>
       {/* IMAGE END */}
 
@@ -60,7 +55,7 @@ const CartItem = ({ data }) => {
                 className="hover:text-black"
                 onChange={(e) => updateCartItem(e, "selectedSize")}
               >
-                {p.size.data.map((item, i) => {
+                {/* {p.size.data.map((item, i) => {
                   return (
                     <option
                       key={i}
@@ -71,7 +66,7 @@ const CartItem = ({ data }) => {
                       {item.size}
                     </option>
                   );
-                })}
+                })} */}
               </select>
             </div>
 

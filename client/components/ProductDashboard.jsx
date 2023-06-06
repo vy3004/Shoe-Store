@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { BiEdit } from "react-icons/bi";
-import { BsEye } from "react-icons/bs";
+import { BsEye, BsSearch } from "react-icons/bs";
+import { MdArrowBack, MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const ProductDashboard = () => {
@@ -94,28 +96,19 @@ const ProductDashboard = () => {
         <p className="text-xl font-bold my-5">All Products</p>
         <div className="flex items-center justify-between pb-4">
           <div>
-            <button className="border border-gray-300 rounded-lg px-3 py-1.5 font-semibold hover:bg-black hover:text-white">
+            <Link
+              href="/dashboard/product/create-product"
+              className="border border-gray-300 rounded-lg px-3 py-1.5 font-semibold hover:bg-black hover:text-white"
+            >
               New Product
-            </button>
+            </Link>
           </div>
           <label htmlFor="table-search" className="sr-only">
             Search
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg
-                className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <BsSearch className="text-gray-500" />
             </div>
             <input
               type="text"
@@ -200,7 +193,7 @@ const ProductDashboard = () => {
           </tbody>
         </table>
         <nav
-          className="flex items-center justify-between pt-4"
+          className="flex items-center justify-between py-4"
           aria-label="Table navigation"
         >
           <span className="text-sm font-normal text-gray-500">
@@ -215,20 +208,7 @@ const ProductDashboard = () => {
                 href="#"
                 className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
               >
-                <span className="sr-only">Previous</span>
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <MdArrowBackIos className="text-[20px]" />
               </a>
             </li>
             <li>
@@ -277,20 +257,7 @@ const ProductDashboard = () => {
                 href="#"
                 className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
               >
-                <span className="sr-only">Next</span>
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <MdArrowForwardIos className="text-[20px]" />
               </a>
             </li>
           </ul>

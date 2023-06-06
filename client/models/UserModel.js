@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
     },
     email: {
       type: String,
@@ -16,20 +15,16 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phone: {
-      type: String,
+    isAdmin: {
+      type: Boolean,
       required: true,
-    },
-    address: {
-      type: {},
-      required: true,
-    },
-    role: {
-      type: Number,
-      default: 0,
+      default: false,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+export default User;

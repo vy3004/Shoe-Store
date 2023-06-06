@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useDispatch } from "react-redux";
 
@@ -10,12 +10,14 @@ import RelatedProducts from "@/components/RelatedProducts";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Store } from "@/utils/Store";
 
 const ProductDetails = ({ product, products }) => {
   const [selectedSize, setSelectedSize] = useState();
   const [showError, setShowError] = useState(false);
   //const dispatch = useDispatch();
   //const p = product?.data?.[0]?.attributes;
+  const { state, dispatch } = useContext(Store);
 
   const notify = () => {
     toast.success("Success. Check your cart!", {
@@ -28,6 +30,12 @@ const ProductDetails = ({ product, products }) => {
       progress: undefined,
       theme: "dark",
     });
+  };
+
+  const handleAddToCart = () => {
+    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
   };
 
   return (
@@ -167,6 +175,7 @@ const ProductDetails = ({ product, products }) => {
               //     notify();
               //   }
               // }}
+              onClick={handleAddToCart}
             >
               Add to Cart
             </button>

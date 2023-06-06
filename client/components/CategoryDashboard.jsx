@@ -1,10 +1,17 @@
+import axios from "axios";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "react-toastify";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const CategoryDashboard = () => {
+  const [categories, setCategories] = useState([]);
+
   const items = [
     {
       id: 1,
@@ -70,15 +77,34 @@ const CategoryDashboard = () => {
     },
   ];
 
+  const getAllCategories = async () => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}category/all-category`);
+      if (data?.success) {
+        setCategories(data?.category);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in getting category");
+    }
+  };
+
+  useEffect(() => {
+    getAllCategories();
+  }, []);
+
   return (
     <div>
       <div className="relative overflow-x-auto sm:rounded-lg">
         <p className="text-xl font-bold my-5">All Categories</p>
         <div className="flex items-center justify-between pb-4">
           <div>
-            <button className="border border-gray-300 rounded-lg px-3 py-1.5 font-semibold hover:bg-black hover:text-white">
+            <Link
+              href="/dashboard/category/create-category"
+              className="border border-gray-300 rounded-lg px-3 py-1.5 font-semibold hover:bg-black hover:text-white"
+            >
               New Category
-            </button>
+            </Link>
           </div>
           <label htmlFor="table-search" className="sr-only">
             Search
@@ -129,8 +155,8 @@ const CategoryDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {items &&
-              items.map((item) => (
+            {categories &&
+              categories.map((item) => (
                 <tr
                   key={item.id}
                   className="bg-white border-b hover:bg-gray-50"
@@ -150,7 +176,7 @@ const CategoryDashboard = () => {
                       className="rounded-lg mr-2"
                       width={40}
                       height={40}
-                      src={item.image}
+                      src="/product-1.webp"
                       alt={item.name}
                     />
                     {item.name}
@@ -173,6 +199,7 @@ const CategoryDashboard = () => {
               ))}
           </tbody>
         </table>
+        {/* pagination */}
         <nav
           className="flex items-center justify-between pt-4"
           aria-label="Table navigation"
@@ -269,6 +296,7 @@ const CategoryDashboard = () => {
             </li>
           </ul>
         </nav>
+        {/* pagination */}
       </div>
     </div>
   );

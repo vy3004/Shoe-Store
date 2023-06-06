@@ -3,6 +3,14 @@ import Wrapper from "@/components/Wrapper";
 import React from "react";
 
 const cart = () => {
+  const cartItems = [
+    {
+      id: 1,
+      img: "/product-1.webp",
+      name: "nike",
+    },
+  ];
+
   return (
     <div className="w-full md:py-20">
       <Wrapper>
@@ -37,7 +45,7 @@ const cart = () => {
                       Subtotal
                     </div>
                     <div className="text-md md:text-lg font-medium text-black">
-                      &#8377;{subTotal}
+                      &#8377;700
                     </div>
                   </div>
                   <div className="text-sm md:text-md py-5 border-t mt-5">
@@ -51,10 +59,10 @@ const cart = () => {
                 {/* BUTTON START */}
                 <button
                   className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 flex items-center gap-2 justify-center"
-                  onClick={handlePayment}
+                  //onClick={handlePayment}
                 >
                   Checkout
-                  {loading && <img src="/spinner.svg" />}
+                  {/* {loading && <img src="/spinner.svg" />} */}
                 </button>
                 {/* BUTTON END */}
               </div>
