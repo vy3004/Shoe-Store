@@ -9,7 +9,15 @@ import axios from "axios";
 const DashBoardAdmin = () => {
   return (
     <Wrapper>
-      <MenuAdmin />
+      <div className="grid md:grid-cols-5 md:gap-5 my-5">
+        <div>
+          <MenuAdmin title="dashboard" />
+        </div>
+
+        <div className="overflow-x-auto md:col-span-4 rounded-md shadow-md my-1 px-3">
+          dashboard
+        </div>
+      </div>
     </Wrapper>
   );
 };

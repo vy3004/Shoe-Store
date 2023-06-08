@@ -7,37 +7,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const register = () => {
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [address, setAddress] = useState("");
-  // const router = useRouter();
-
-  // // register function
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log({ name, email, password, phone, address });
-  //   try {
-  //     const data = await publicClient.post("/auth/register", {
-  //       name,
-  //       email,
-  //       password,
-  //       phone,
-  //       address,
-  //     });
-  //     console.log("RES", data);
-  //     if (data && data.success) {
-  //       toast.success(data.message);
-  //       router.push("/auth/login");
-  //     } else {
-  //       toast.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong");
-  //   }
-  // };
   const { data: session } = useSession();
 
   const router = useRouter();

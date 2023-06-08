@@ -1,7 +1,7 @@
 import Wrapper from "@/components/Wrapper";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { getError } from "../../utils/error";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -10,6 +10,7 @@ import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import Image from "next/image";
+import MenuAdmin from "@/components/MenuAdmin";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -41,6 +42,7 @@ function reducer(state, action) {
 
 const Products = () => {
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
 
   const [
     { loading, error, products, loadingCreate, successDelete, loadingDelete },
@@ -65,6 +67,10 @@ const Products = () => {
       dispatch({ type: "CREATE_FAIL" });
       toast.error(getError(err));
     }
+  };
+
+  const editHandle = (productId) => {
+    router.push(`/dashboard/product/${productId}`);
   };
 
   useEffect(() => {
@@ -101,53 +107,28 @@ const Products = () => {
   };
   return (
     <Wrapper>
-      <div className="grid md:grid-cols-4 md:gap-5">
+      <div className="grid md:grid-cols-5 md:gap-5 my-5">
         <div>
-          <ul>
-            <li>
-              <Link href="/dashboard">Dashboard</Link>
-            </li>
-            <li>
-              <Link href="/dashboard/orders">Orders</Link>
-            </li>
-            <li>
-              <Link href="/dashboard/products" className="font-bold">
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard/users">Users</Link>
-            </li>
-          </ul>
+          <MenuAdmin title="products" />
         </div>
-        <div className="overflow-x-auto md:col-span-3">
-          <div className="flex justify-between">
-            <h1 className="mb-4 text-xl">Products</h1>
-            {loadingDelete && <div>Deleting item...</div>}
-            <button
-              disabled={loadingCreate}
-              onClick={createHandler}
-              className="primary-button"
-            >
-              {loadingCreate ? "Loading" : "Create"}
-            </button>
-          </div>
+        <div className="overflow-x-auto md:col-span-4 rounded-md shadow-md my-1 px-3">
           {loading ? (
             <div>Loading...</div>
           ) : error ? (
             <div className="alert-error">{error}</div>
           ) : (
             <div className="relative overflow-x-auto sm:rounded-lg">
-              <p className="text-xl font-bold my-5">All Products</p>
+              <p className="text-xl font-bold my-3">All Products</p>
+              {loadingDelete && <div>Deleting item...</div>}
               <div className="flex items-center justify-between pb-4">
-                <div>
+                <button>
                   <Link
-                    href="/dashboard/product/create-product"
-                    className="border border-gray-300 rounded-lg px-3 py-1.5 font-semibold hover:bg-black hover:text-white"
+                    href="/dashboard/product/new-product"
+                    className="border border-gray-300 rounded-lg px-3 py-2 font-semibold hover:bg-black hover:text-white"
                   >
                     New Product
                   </Link>
-                </div>
+                </button>
                 <label htmlFor="table-search" className="sr-only">
                   Search
                 </label>
@@ -158,7 +139,7 @@ const Products = () => {
                   <input
                     type="text"
                     id="table-search"
-                    className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    className="block md:w-80 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Search for items"
                   />
                 </div>
@@ -208,28 +189,40 @@ const Products = () => {
                           scope="row"
                           className="px-6 py-4 flex items-center font-bold text-gray-900 whitespace-nowrap"
                         >
-                          <Image
-                            className="rounded-lg mr-2"
-                            width={40}
-                            height={40}
-                            src={product.image}
-                            alt={product.name}
-                          />
+                          <div>
+                            <Image
+                              className="rounded-lg mr-2"
+                              width={40}
+                              height={40}
+                              src={product.image}
+                              alt={product.name}
+                            />
+                          </div>
+
                           {product.name}
                         </th>
                         <td className="px-6 py-4">{product.category}</td>
                         <td className="px-6 py-4">{product.countInStock}</td>
                         <td className="px-6 py-4">${product.price}</td>
                         <td className="px-6 py-4">
-                          <div className="h-full flex items-center justify-between">
-                            <button>
+                          <div className="h-full flex items-center">
+                            {/* view button */}
+                            {/* <button>
                               <BsEye className="text-[22px] hover:text-green-500" />
+                            </button> */}
+                            {/* edit button */}
+                            <button
+                              onClick={() => editHandle(product._id)}
+                              title="Edit product"
+                            >
+                              <BiEdit className="text-[22px] text-yellow-500 hover:opacity-70 mr-2" />
                             </button>
-                            <button>
-                              <BiEdit className="text-[22px] hover:text-yellow-500" />
-                            </button>
-                            <button>
-                              <RiDeleteBin6Line className="text-[21px] hover:text-red-600" />
+                            {/* delete button */}
+                            <button
+                              onClick={() => deleteHandler(product._id)}
+                              title="Delete product"
+                            >
+                              <RiDeleteBin6Line className="text-[20px] text-red-600 hover:opacity-70" />
                             </button>
                           </div>
                         </td>

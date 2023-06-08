@@ -4,7 +4,6 @@ import db from "../../../../../utils/db";
 
 const handler = async (req, res) => {
   const user = await getToken({ req });
-  console.log("CHECK", req);
   if (!user || (user && !user.isAdmin)) {
     return res.status(401).send("Sign in required");
   }
@@ -49,7 +48,7 @@ const deleteHandler = async (req, res) => {
   await db.connect();
   const product = await Product.findById(req.query.id);
   if (product) {
-    await product.remove();
+    await product.deleteOne();
     await db.disconnect();
     res.send({ message: "Product deleted successfully" });
   } else {
@@ -58,3 +57,11 @@ const deleteHandler = async (req, res) => {
   }
 };
 export default handler;
+
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "16mb",
+    },
+  },
+};

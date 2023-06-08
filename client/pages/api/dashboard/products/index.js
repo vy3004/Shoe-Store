@@ -4,7 +4,6 @@ import db from "../../../../utils/db";
 
 const handler = async (req, res) => {
   const user = await getToken({ req });
-  console.log("CHECK", user);
   if (!user || !user.isAdmin) {
     return res.status(401).send("Admin sign in required");
   }
@@ -19,15 +18,15 @@ const handler = async (req, res) => {
 const postHandler = async (req, res) => {
   await db.connect();
   const newProduct = new Product({
-    name: "Nike 1",
-    slug: "sample-name-" + Math.random(),
-    image: "/product-1.webp",
-    price: 100,
-    category: "Running shoe",
-    brand: "Nike",
-    countInStock: 99,
-    description: "description",
-    rating: 0,
+    name: req.body.name,
+    slug: req.body.slug,
+    image: req.body.image,
+    price: req.body.price,
+    category: req.body.category,
+    brand: req.body.brand,
+    countInStock: req.body.countInStock,
+    description: req.body.description,
+    rating: 5,
     numReviews: 0,
   });
 
