@@ -38,6 +38,8 @@ const ProductDetails = ({ product, products }) => {
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
   };
 
+  console.log("SLUG", product);
+
   return (
     <div className="w-full md:py-20">
       <ToastContainer />

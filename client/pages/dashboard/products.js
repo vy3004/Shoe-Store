@@ -42,32 +42,13 @@ function reducer(state, action) {
 
 const Products = () => {
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
 
-  const [
-    { loading, error, products, loadingCreate, successDelete, loadingDelete },
-    dispatch,
-  ] = useReducer(reducer, {
-    loading: true,
-    products: [],
-    error: "",
-  });
-
-  const createHandler = async () => {
-    if (!window.confirm("Are you sure?")) {
-      return;
-    }
-    try {
-      dispatch({ type: "CREATE_REQUEST" });
-      const { data } = await axios.post(`/api/dashboard/products`);
-      dispatch({ type: "CREATE_SUCCESS" });
-      toast.success("Product created successfully");
-      router.push(`/dashboard/product/${data.product._id}`);
-    } catch (err) {
-      dispatch({ type: "CREATE_FAIL" });
-      toast.error(getError(err));
-    }
-  };
+  const [{ loading, error, products, successDelete, loadingDelete }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      products: [],
+      error: "",
+    });
 
   const editHandle = (productId) => {
     router.push(`/dashboard/product/${productId}`);
@@ -105,6 +86,7 @@ const Products = () => {
       toast.error(getError(err));
     }
   };
+
   return (
     <Wrapper>
       <div className="grid md:grid-cols-5 md:gap-5 my-5">
